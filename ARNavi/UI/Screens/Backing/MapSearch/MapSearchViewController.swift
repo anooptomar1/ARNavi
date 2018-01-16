@@ -10,10 +10,6 @@ import UIKit
 import MapKit
 import CoreLocation
 
-protocol MapSearchViewControllerDelegate: class {
-    func navigateInAR(data: [TripLeg])
-}
-
 class MapSearchViewController: UIViewController, Controller {
     
     var type: CoordinatorType = .start
@@ -52,9 +48,7 @@ class MapSearchViewController: UIViewController, Controller {
         if tripData != nil {
             delegate?.navigateInAR(data: self.tripData)
         }
-       // delegate?.navigateInAR()
     }
-    
 }
 
 extension MapSearchViewController: NavigatorDelegate {
@@ -172,3 +166,4 @@ extension MapSearchViewController: MKMapViewDelegate {
         return MKOverlayRenderer()
     }
 }
+

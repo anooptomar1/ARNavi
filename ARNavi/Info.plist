@@ -2,12 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location services are necessary for navigating.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location services are necessary for navigating.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location services are necessary for navigating.</string>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiY2hyaXN3ZWJiIiwiYSI6ImNpcnk0aTF1dTAxbWkyb2tqazNwMzFkeGIifQ.JnhXk7d8t6tNW8k3AUWLlw</string>
+	<key>MGLMapboxMetricsEnabledSettingShownInApp</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -28,6 +26,12 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This application will use the camera for Augmented Reality.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location services are necessary for navigating.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location services are necessary for navigating.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location services are necessary for navigating.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

@@ -52,4 +52,28 @@ class BaseNode: SCNNode {
         addChildNode(sphereNode)
         addChildNode(annotationNode)
     }
+    
+    func addPulse() {
+        let pulseSize:CGFloat = 5.0
+        let pulsePlane = SCNPlane(width: pulseSize, height: pulseSize)
+        pulsePlane.firstMaterial?.isDoubleSided = true
+        pulsePlane.firstMaterial?.diffuse.contents = UIColor.blue
+        let pulseNode = SCNNode(geometry: pulsePlane)
+        
+        let pulseShaderModifier =
+            "#pragma transparent; \n" +
+                "vec4 originalColour = _surface.diffuse; \n" +
+                "vec4 transformed_position = u_inverseModelTransform * u_inverseViewTransform * vec4(_surface.position, 1.0); \n" +
+                "vec2 xy = vec2(transformed_position.x, transformed_position.y); \n" +
+                "float xyLength = length(xy); \n" +
+                "float xyLengthNormalised = xyLength/" + String(describing: pulseSize / 2) + "; \n" +
+                "float speedFactor = 1.5; \n" +
+                "float maxDist = fmod(u_time, speedFactor) / speedFactor; \n" +
+                "float distbasedalpha = step(maxDist, xyLengthNormalised); \n" +
+                "distbasedalpha = max(distbasedalpha, maxDist); \n" +
+        "_surface.diffuse = mix(originalColour, vec4(0.0), distbasedalpha);"
+        
+        pulsePlane.firstMaterial?.shaderModifiers = [SCNShaderModifierEntryPoint.surface:pulseShaderModifier]
+        addChildNode(pulseNode)
+    }
 }

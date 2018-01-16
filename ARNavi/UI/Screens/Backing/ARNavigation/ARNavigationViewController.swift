@@ -8,6 +8,7 @@
 
 import SceneKit
 import ARKit
+import Mapbox
 import MapKit
 import CoreLocation
 
@@ -15,6 +16,7 @@ class ARNavigationViewController: UIViewController, Controller {
     
     private var nodes: [BaseNode] = []
     private var locationService = LocationService()
+    var compass : MBXCompassMapView!
     private var updateNodes: Bool = false
     internal var startingLocation: CLLocation!
 
@@ -43,6 +45,26 @@ class ARNavigationViewController: UIViewController, Controller {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        compass = MBXCompassMapView(frame: CGRect(x: 20,
+                                                  y: 20,
+                                                  width: view.bounds.width / 3,
+                                                  height: view.bounds.width / 3),
+                                    styleURL: URL(string: "mapbox://styles/chriswebb/cj8qiup6takxf2rntug155jms"))
+        
+        compass.isMapInteractive = false
+        compass.tintColor = .black
+        compass.delegate = self
+        view.addSubview(compass)
+        
+       
+        sceneView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(compass, aboveSubview: sceneView)
+       // view.insertSubview(sceneView, belowSubview: compass)
+         setConstraints()
+        sceneView.delegate = self
+        // Shows attribution and telemetry opt-in. For more information about Mapbox attribution, see https://www.mapbox.com/help/how-attribution-works/#mapbox-ios-sdk
+   
+        
         locationService.startUpdatingLocation(locationManager: locationService.locationManager!)
         locationService.delegate = self
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -50,6 +72,42 @@ class ARNavigationViewController: UIViewController, Controller {
         sceneView.delegate = self
         sceneView.session.delegate = self
         runSession()
+        let button = compass.attributionButton
+        button.isHidden = false
+        button.frame = CGRect(x: 10, y: 20, width: compass.attributionButton.frame.width, height: compass.attributionButton.frame.height)
+        view.addSubview(button)
+    }
+    
+    func setConstraints() {
+        compass.translatesAutoresizingMaskIntoConstraints = false
+        self.compass.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
+        compass.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        
+        if UIDevice.current.orientation == .portrait {
+            compass.heightAnchor.constraint(
+                equalTo: view.widthAnchor,
+                multiplier: 0.33).isActive = true
+            compass.widthAnchor.constraint(
+                equalTo: view.widthAnchor,
+                multiplier: 0.33).isActive = true
+        } else {
+            compass.heightAnchor.constraint(
+                equalTo: view.heightAnchor,
+                multiplier: 0.33).isActive = true
+            compass.widthAnchor.constraint(
+                equalTo: view.heightAnchor,
+                multiplier: 0.33).isActive = true
+        }
+    }
+    
+    func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
+        if let source = style.source(withIdentifier: "composite") {
+            let poiCircles = MGLCircleStyleLayer(identifier: "poi-circles", source: source)
+            poiCircles.sourceLayerIdentifier = "poi_label"
+            poiCircles.circleColor = MGLStyleValue(rawValue: .white)
+            poiCircles.circleRadius = MGLStyleValue(rawValue: 4)
+            style.addLayer(poiCircles)
+        }
     }
     
     func runSession() {
@@ -125,6 +183,7 @@ extension ARNavigationViewController: ARSCNViewDelegate {
         sphere.addNode(with: 0.3, and: .green, and: step.directions)
         sphere.location = stepLocation
         sphere.anchor = stepAnchor
+        sphere.addPulse()
         sceneView.session.add(anchor: stepAnchor)
         sceneView.scene.rootNode.addChildNode(sphere)
         nodes.append(sphere)
@@ -151,7 +210,7 @@ extension ARNavigationViewController: ARSessionDelegate {
     private func addAnchors(steps: [TripLeg]) {
         guard startingLocation != nil && steps.count > 0 else { return }
         
-        for (index, leg) in tripData.enumerated() {
+        for (_, leg) in tripData.enumerated() {
             for (count, location) in leg.coordinates.enumerated() {
                 if count == 0 {
                     addSphere(for: leg)
@@ -164,14 +223,13 @@ extension ARNavigationViewController: ARSessionDelegate {
     }
 }
 
-extension ARNavigationViewController: LocationServiceDelegate {
+extension ARNavigationViewController: LocationServiceDelegate, MessagePresenting {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print(status)
     }
     
     func trackingLocation(for currentLocation: CLLocation) {
-        print(currentLocation)
         if currentLocation.horizontalAccuracy <= 80.0 {
             updatedLocations.append(currentLocation)
             updateNodePosition()
@@ -179,9 +237,10 @@ extension ARNavigationViewController: LocationServiceDelegate {
     }
     
     func trackingLocationDidFail(with error: Error) {
-        print(error.localizedDescription)
+        presentMessage(title: "Error", message: error.localizedDescription)
     }
-    
-    
 }
 
+extension ARNavigationViewController:  MGLMapViewDelegate {
+    
+}
