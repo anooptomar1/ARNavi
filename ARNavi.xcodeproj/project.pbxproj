@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7C38455200EB6FF0097A792 /* MKMapCompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C38454200EB6FF0097A792 /* MKMapCompassView.swift */; };
 		A7FAE28B200DBB9C0014724D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FAE28A200DBB9C0014724D /* AppDelegate.swift */; };
 		A7FAE28D200DBB9C0014724D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A7FAE28C200DBB9C0014724D /* art.scnassets */; };
 		A7FAE294200DBB9C0014724D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7FAE293200DBB9C0014724D /* Assets.xcassets */; };
@@ -49,7 +50,6 @@
 		A7FAE2FD200E05AC0014724D /* ARNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FAE2FC200E05AC0014724D /* ARNavigationView.swift */; };
 		A7FAE2FF200E0F5D0014724D /* MessagePresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FAE2FE200E0F5D0014724D /* MessagePresenting.swift */; };
 		A7FAE301200E4F2B0014724D /* MapSearchViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FAE300200E4F2B0014724D /* MapSearchViewControllerDelegate.swift */; };
-		A7FAE303200E51BA0014724D /* MBXCompassMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FAE302200E51BA0014724D /* MBXCompassMapView.swift */; };
 		F22032AA06688F663C50BC78 /* Pods_ARNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98473E01DCF1CBB8EBF6C723 /* Pods_ARNavi.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +57,7 @@
 		62C6D1261D8BDF9FB3C40C9B /* Pods-ARNavi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARNavi.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARNavi/Pods-ARNavi.release.xcconfig"; sourceTree = "<group>"; };
 		885A2AAD2A331746B5B4DDFC /* Pods-ARNavi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARNavi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARNavi/Pods-ARNavi.debug.xcconfig"; sourceTree = "<group>"; };
 		98473E01DCF1CBB8EBF6C723 /* Pods_ARNavi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARNavi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7C38454200EB6FF0097A792 /* MKMapCompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapCompassView.swift; sourceTree = "<group>"; };
 		A7FAE287200DBB9C0014724D /* ARNavi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARNavi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7FAE28A200DBB9C0014724D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7FAE28C200DBB9C0014724D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		A7FAE2FC200E05AC0014724D /* ARNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARNavigationView.swift; sourceTree = "<group>"; };
 		A7FAE2FE200E0F5D0014724D /* MessagePresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePresenting.swift; sourceTree = "<group>"; };
 		A7FAE300200E4F2B0014724D /* MapSearchViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchViewControllerDelegate.swift; sourceTree = "<group>"; };
-		A7FAE302200E51BA0014724D /* MBXCompassMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBXCompassMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				A7FAE2BF200DC7590014724D /* Screens */,
-				A7FAE302200E51BA0014724D /* MBXCompassMapView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -263,6 +262,7 @@
 				A7FAE2B2200DC27B0014724D /* UIViewController+Extension.swift */,
 				A7FAE2B0200DC26F0014724D /* UIView+Extension.swift */,
 				A7FAE2FE200E0F5D0014724D /* MessagePresenting.swift */,
+				A7C38454200EB6FF0097A792 /* MKMapCompassView.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -441,10 +441,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7FAE2B5200DC3C40014724D /* MapSearchViewController.swift in Sources */,
+				A7C38455200EB6FF0097A792 /* MKMapCompassView.swift in Sources */,
 				A7FAE2F0200DEBD30014724D /* MKRouteStep+Extension.swift in Sources */,
 				A7FAE2AD200DC1D20014724D /* ControllerCoordinator.swift in Sources */,
 				A7FAE2B3200DC27B0014724D /* UIViewController+Extension.swift in Sources */,
-				A7FAE303200E51BA0014724D /* MBXCompassMapView.swift in Sources */,
 				A7FAE2D3200DCABF0014724D /* LocationService.swift in Sources */,
 				A7FAE2CD200DCA400014724D /* SCNVector3+Extension.swift in Sources */,
 				A7FAE301200E4F2B0014724D /* MapSearchViewControllerDelegate.swift in Sources */,

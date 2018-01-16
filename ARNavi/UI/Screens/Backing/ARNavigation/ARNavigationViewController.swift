@@ -8,7 +8,6 @@
 
 import SceneKit
 import ARKit
-import Mapbox
 import MapKit
 import CoreLocation
 
@@ -18,7 +17,7 @@ class ARNavigationViewController: UIViewController, Controller {
     
     private var nodes: [BaseNode] = []
     private var locationService = LocationService()
-    var compass : MBXCompassMapView!
+    var compassMapView: MKMapCompassView!
     private var updateNodes: Bool = false
     internal var startingLocation: CLLocation!
 
@@ -48,26 +47,17 @@ class ARNavigationViewController: UIViewController, Controller {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
-        compass = MBXCompassMapView(frame: CGRect(x: 20,
-                                                  y: 20,
-                                                  width: view.bounds.width / 3,
-                                                  height: view.bounds.width / 3),
-                                    styleURL: URL(string: "mapbox://styles/chriswebb/cjchzr3z56ayd2snpbdzakeh1"))
-        
-        compass.isMapInteractive = false
-        compass.tintColor = .black
-        compass.delegate = self
-        view.addSubview(compass)
+        compassMapView = MKMapCompassView(frame: CGRect(x: 20, y: 20, width: view.bounds.width / 2, height: view.bounds.width / 2))
+        compassMapView.isMapInteractive = false
+        compassMapView.tintColor = .black
+        compassMapView.delegate = self
+        view.addSubview(compassMapView)
         
        
         sceneView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.insertSubview(compass, aboveSubview: sceneView)
-       // view.insertSubview(sceneView, belowSubview: compass)
+        view.insertSubview(compassMapView, aboveSubview: sceneView)
          setConstraints()
         sceneView.delegate = self
-        // Shows attribution and telemetry opt-in. For more information about Mapbox attribution, see https://www.mapbox.com/help/how-attribution-works/#mapbox-ios-sdk
-   
-        
         locationService.startUpdatingLocation(locationManager: locationService.locationManager!)
         locationService.delegate = self
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -75,43 +65,39 @@ class ARNavigationViewController: UIViewController, Controller {
         sceneView.delegate = self
         sceneView.session.delegate = self
         runSession()
-        let button = compass.attributionButton
-        button.isHidden = false
-        button.frame = CGRect(x: 10, y: 20, width: compass.attributionButton.frame.width, height: compass.attributionButton.frame.height)
-        view.addSubview(button)
     }
     
     func setConstraints() {
-        compass.translatesAutoresizingMaskIntoConstraints = false
-        self.compass.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        compass.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        compassMapView.translatesAutoresizingMaskIntoConstraints = false
+        self.compassMapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
+        compassMapView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         
         if UIDevice.current.orientation == .portrait {
-            compass.heightAnchor.constraint(
+            compassMapView.heightAnchor.constraint(
                 equalTo: view.widthAnchor,
                 multiplier: 0.33).isActive = true
-            compass.widthAnchor.constraint(
+            compassMapView.widthAnchor.constraint(
                 equalTo: view.widthAnchor,
                 multiplier: 0.33).isActive = true
         } else {
-            compass.heightAnchor.constraint(
+            compassMapView.heightAnchor.constraint(
                 equalTo: view.heightAnchor,
                 multiplier: 0.33).isActive = true
-            compass.widthAnchor.constraint(
+            compassMapView.widthAnchor.constraint(
                 equalTo: view.heightAnchor,
                 multiplier: 0.33).isActive = true
         }
     }
     
-    func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
-        if let source = style.source(withIdentifier: "composite") {
-            let poiCircles = MGLCircleStyleLayer(identifier: "poi-circles", source: source)
-            poiCircles.sourceLayerIdentifier = "poi_label"
-            poiCircles.circleColor = MGLStyleValue(rawValue: .white)
-            poiCircles.circleRadius = MGLStyleValue(rawValue: 4)
-            style.addLayer(poiCircles)
-        }
-    }
+//    func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
+//        if let source = style.source(withIdentifier: "composite") {
+//            let poiCircles = MGLCircleStyleLayer(identifier: "poi-circles", source: source)
+//            poiCircles.sourceLayerIdentifier = "poi_label"
+//            poiCircles.circleColor = MGLStyleValue(rawValue: .white)
+//            poiCircles.circleRadius = MGLStyleValue(rawValue: 4)
+//            style.addLayer(poiCircles)
+//        }
+//    }
     
     func runSession() {
         configuration.planeDetection = .horizontal
@@ -244,6 +230,6 @@ extension ARNavigationViewController: LocationServiceDelegate, MessagePresenting
     }
 }
 
-extension ARNavigationViewController:  MGLMapViewDelegate {
+extension ARNavigationViewController: MKMapViewDelegate {
     
 }
