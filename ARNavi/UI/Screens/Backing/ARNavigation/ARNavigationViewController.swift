@@ -12,6 +12,8 @@ import Mapbox
 import MapKit
 import CoreLocation
 
+// Credit: https://blog.mapbox.com/compass-for-arkit-42c0692c4e51
+
 class ARNavigationViewController: UIViewController, Controller {
     
     private var nodes: [BaseNode] = []
@@ -45,11 +47,12 @@ class ARNavigationViewController: UIViewController, Controller {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = []
         compass = MBXCompassMapView(frame: CGRect(x: 20,
                                                   y: 20,
                                                   width: view.bounds.width / 3,
                                                   height: view.bounds.width / 3),
-                                    styleURL: URL(string: "mapbox://styles/chriswebb/cj8qiup6takxf2rntug155jms"))
+                                    styleURL: URL(string: "mapbox://styles/chriswebb/cjchzr3z56ayd2snpbdzakeh1"))
         
         compass.isMapInteractive = false
         compass.tintColor = .black

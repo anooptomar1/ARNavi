@@ -1,10 +1,11 @@
 //
 //  MBXCompassMapView.swift
-//  ARNavi
+//  MapboxCompassMapViewSwift
 //
-//  Created by Christopher Webb-Orenstein on 1/16/18.
-//  Copyright © 2018 Christopher Webb-Orenstein. All rights reserved.
+//  Created by Jordan Kiley on 7/19/17.
+//  Copyright © 2017 Mapbox. All rights reserved.
 //
+
 
 import Mapbox
 
